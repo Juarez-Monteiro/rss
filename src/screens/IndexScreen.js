@@ -7,7 +7,7 @@ import { Context } from '../context/FeedListContext'
 
 const IndexScreen = ({ navigation }) => {
     const { state, deleteFeed } = useContext(Context);
-    
+    /*exibe na tela usando FlatList que é um componente React native*/
     return (
         <>
             <FlatList
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     },
     icon: {
         fontSize: 24
-        
+
     }
 });
 

@@ -2,21 +2,38 @@ import createDataContext from './createDataContext';
 import { XMLParser } from 'fast-xml-parser';
 import rssfeed from '../api/rssfeed';
 
-
+/* feedReducer é usado para gerenciar um feed de notícias responsável por 
+atualizar o estado do feed e as funções addItem, deleteItem, fetchItems, restoreState e deleteAll 
+realizam operações no feed, como adicionar um novo item,
+ onde implementei só o action.*/
 const feedReducer = (state, action) => {
     let newState = [];
     switch (action.type) {
         case 'fetch_items':
-            return action.payload;
+            return action.payload;//retorna a lista de itens do feed
+            
         case 'add_item':
-            console.log('implementar');
-            return state;
-        case 'delete_item':
-            console.log('implementar');
-            return state;
+            let id = state.length + 1;
+
+            newState = [...state,
+                {
+                    title: action.payload.titulo,
+                    link: action.payload.urlFeed,
+                    description: action.payload.description,
+                    pubDate: action.payload.pubDate,
+                    id: id
+                }
+            ];
+
+            return newState; //retorna o novo item da lista de itens do feed
+            
+        case 'delete_item': //remove o item da lista de itens do feed
+            newState = state.filter((item) => item.id !== action.payload);
+            return newState;
+
         case 'restore_state':
-            console.log('implementar');
-            return state;
+            return newState;
+
         case 'delete_all':
             return [];
         default:
@@ -26,13 +43,15 @@ const feedReducer = (state, action) => {
 
 const addItem = dispatch => {
     return (titulo, urlFeed, callback) => {
-        console.log('implementar');
+        let dataNoticia = new Date(); //Data da postagem da noticia
+        dispatch({ type: 'add_item', payload: { titulo, urlFeed,dataNoticia } }); // cahamando o reducer para adicionar o item
+
     };
 };
 
 const deleteItem = dispatch => {
     return (id) => {
-        console.log('implementar');
+        dispatch({ type: 'delete_item', payload: id });
     };
 };
 
@@ -66,7 +85,7 @@ const deleteAll = dispatch => {
     }
 }
 
-const rssItems = [
+/*const rssItems = [
     {
         titulo: 'Atleta patrocinado pela Unimed Teresina é campeão do Picos Pro Race',
         link: 'https://g1.globo.com/pi/piaui/especial-publicitario/unimed-teresina/sos-unimed/noticia/2023/04/25/atleta-patrocinado-pela-unimed-teresina-e-campeao-do-picos-pro-race.ghtml',
@@ -88,10 +107,11 @@ const rssItems = [
         imagem: 'https://s2.glbimg.com/p4NCQiAXFXoeui-Z3hLIuw6mdrM=/s.glbimg.com/jo/g1/f/original/2014/12/30/1891068_494430480679972_2000335663_n.jpg',
         dataPublicacao: 'Fri, 14 Feb 2020 13:44:49 -0000'
     },
-];
+];*/
 
 export const { Context, Provider } = createDataContext(
     feedReducer,
     { addItem, deleteItem, fetchItems, restoreState, deleteAll },
+   //arrei preenchido a partier da const fetchItems
     []
 );
