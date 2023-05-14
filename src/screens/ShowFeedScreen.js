@@ -33,7 +33,7 @@ const ShowFeedScreen = ({ route, navigation }) => {
                             <View style={styles.row}>
                                 <Text style={styles.titulo}>{item.title} - {item.pubDate}</Text>
                                     <View style={styles.row1}> 
-                                        <TouchableOpacity onPress={( )=> deleteItem(item.id)}>
+                                        <TouchableOpacity /*onPress={( )=> deleteItem(item.id)}*/>
                                             <Feather style={styles.icon} name="trash" />
                                         </TouchableOpacity>
                                     </View>
